@@ -10,6 +10,9 @@ let x = 0;
 let y = 0;
 let width = 10;
 
+let ax = (Math.random() * 300).toFixed(0);
+let ay = (Math.random()*150).toFixed(0);
+
 let snake = {
     x : x,
     y : y,
@@ -17,9 +20,9 @@ let snake = {
     height :5
 }
 
-let apple = {
-    x :0,
-    y :0,
+let apples = {
+    x :ax,
+    y :ay,
     width : 11,
     height : 12
 }
@@ -32,21 +35,21 @@ let apple = {
 const drawSnake = () => {
  
     ctx.fillStyle = "rgb(0, 162, 232)";
-    ctx.fillRect(x, y, 5, 5);
+    ctx.fillRect(snake.x, snake.y, snake.width, snake.height);
  
 }
 
 const makeApple = () => {
      let apple = new Image();
     apple.src = '/R.png'
-    apple.onload = () => {ctx2.drawImage(apple,0,0,11,12, (Math.random() * 300).toFixed(0), (Math.random()*150).toFixed(0),11,12 );}
+    apple.onload = () => {ctx2.drawImage(apple,0,0,apples.width,apples.height, apples.x, apples.y,apples.width,apples.height );}
  
 }
-makeApple();
+
 
 setInterval(makeApple, 3000);
 
-
+makeApple();
 
 drawSnake();
 const delSnake = () =>{
@@ -57,13 +60,13 @@ window.onkeydown = function(event) {
     var num = event.keyCode;
     event.preventDefault();
     if (num == 87) { // 'W'
-     y -= 10;
+     snake.y -= 10;
     } else if (num == 83) { // 'S'
-     y += 10;
+        snake.y += 10;
     } else if (num == 65) { // 'A'
-      x -= 10;
+        snake.x -= 10;
     } else if (num == 68) { // 'D'
-      x += 10;
+        snake.x += 10;
     }
     delSnake();
     drawSnake();
