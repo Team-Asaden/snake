@@ -16,19 +16,29 @@ let ay = (Math.random()*150).toFixed(0);
 let snake = {
     x : x,
     y : y,
-    width :5,
-    height :5
+    width :10,
+    height :10
 }
 
+
+// class Apples {
+//     constructor() {
+//         this.x = (Math.random() * 300).toFixed(0);
+//         this.y = (Math.random() * 150).toFixed(0);
+//         this.width = 11;
+//         this.height = 12;
+//     }
+// }
+
 let apples = {
-    x :ax,
-    y :ay,
+    x :(Math.random() * 300).toFixed(0),
+    y :(Math.random()*150).toFixed(0),
     width : 11,
     height : 12
 }
 
 
-
+// let apples = new Apples();
 
 
 
@@ -40,6 +50,12 @@ const drawSnake = () => {
 }
 
 const makeApple = () => {
+
+//    let apples = new Apples();
+
+apples.x = (Math.random() * 300).toFixed(0);
+apples.y = (Math.random()*150).toFixed(0);
+
      let apple = new Image();
     apple.src = '/R.png'
     apple.onload = () => {ctx2.drawImage(apple,0,0,apples.width,apples.height, apples.x, apples.y,apples.width,apples.height );}
@@ -47,7 +63,7 @@ const makeApple = () => {
 }
 
 
-setInterval(makeApple, 3000);
+//setInterval(makeApple, 1000);
 
 makeApple();
 
@@ -56,17 +72,49 @@ const delSnake = () =>{
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+
+
+
+
+const colisionan = (snake, apples) => {
+    return snake.x < apples.x + apples.width &&
+           snake.x + snake.width > apples.x &&
+           snake.y < apples.y + apples.height &&
+           snake.y + snake.height > apples.y;
+};
+
+
+setInterval(() => {
+    if (colisionan(snake, apples)) {
+        console.log('Los objetos colisionan');
+        ctx2.clearRect(0, 0, canvas.width, canvas.height);
+        snake.width += 5;
+        makeApple();
+    } else {
+        console.log('Los objetos no colisionan');
+    }
+}, 1000);
+
+
+
+
+
+
+
+
+
+
 window.onkeydown = function(event) {
     var num = event.keyCode;
     event.preventDefault();
     if (num == 87) { // 'W'
-     snake.y -= 10;
+     snake.y -= 5;
     } else if (num == 83) { // 'S'
-        snake.y += 10;
+        snake.y += 5;
     } else if (num == 65) { // 'A'
-        snake.x -= 10;
+        snake.x -= 5;
     } else if (num == 68) { // 'D'
-        snake.x += 10;
+        snake.x += 5;
     }
     delSnake();
     drawSnake();
